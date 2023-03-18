@@ -131,6 +131,9 @@ export default function Page() {
       >
         Change Styling
       </button>
+      <p className="font-light italic mt-4">
+        *Click on any text to edit* <br />
+      </p>
       {isModalOpen && (
         <div
           style={{

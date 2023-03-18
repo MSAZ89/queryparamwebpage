@@ -116,40 +116,46 @@ export default function Page() {
             }}
           >
             <h3>Change Styling</h3>
-            <label>
-              Title color:
-              <input
-                type="color"
-                value={titleColor}
-                onChange={(event) => handleColorChange(event, "titleColor")}
-              />
-            </label>
-            <label>
-              Title size:
-              <input
-                type="number"
-                value={titleSize}
-                onChange={(event) => handleSizeChange(event, "titleSize")}
-              />
-            </label>
-            <label>
-              Description color:
-              <input
-                type="color"
-                value={descriptionColor}
-                onChange={(event) =>
-                  handleColorChange(event, "descriptionColor")
-                }
-              />
-            </label>
-            <label>
-              Description size:
-              <input
-                type="number"
-                value={descriptionSize}
-                onChange={(event) => handleSizeChange(event, "descriptionSize")}
-              />
-            </label>
+            <div>
+              <label>
+                Title color:
+                <input
+                  type="color"
+                  value={titleColor}
+                  onChange={(event) => handleColorChange(event, "titleColor")}
+                />
+              </label>
+              <label>
+                Title size:
+                <input
+                  type="number"
+                  value={titleSize}
+                  onChange={(event) => handleSizeChange(event, "titleSize")}
+                />
+              </label>
+            </div>
+            <div>
+              <label>
+                Description color:
+                <input
+                  type="color"
+                  value={descriptionColor}
+                  onChange={(event) =>
+                    handleColorChange(event, "descriptionColor")
+                  }
+                />
+              </label>
+              <label>
+                Description size:
+                <input
+                  type="number"
+                  value={descriptionSize}
+                  onChange={(event) =>
+                    handleSizeChange(event, "descriptionSize")
+                  }
+                />
+              </label>
+            </div>
           </div>
           <button onClick={handleModalClose}>X</button>
         </div>

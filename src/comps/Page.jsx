@@ -1,5 +1,6 @@
 import { useState } from "react";
 import useQueryParam from "./useQueryParam";
+import StyledDetails from "./styledDetails";
 
 export default function Page() {
   const [pageTitle, setPageTitle] = useQueryParam("title", "Page Title");
@@ -16,6 +17,15 @@ export default function Page() {
   const [descriptionSize, setDescriptionSize] = useQueryParam(
     "descriptionSize",
     "16"
+  );
+
+  const [titleFontWeight, setTitleFontWeight] = useQueryParam(
+    "titleFontWeight",
+    "normal"
+  );
+  const [descriptionFontWeight, setDescriptionFontWeight] = useQueryParam(
+    "descriptionFontWeight",
+    "normal"
   );
 
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -41,6 +51,13 @@ export default function Page() {
       case "descriptionSize":
         setDescriptionSize(value);
         break;
+      case "titleFontWeight":
+        setTitleFontWeight(value);
+        break;
+      case "descriptionFontWeight":
+        setDescriptionFontWeight(value);
+        break;
+
       default:
         break;
     }
@@ -66,6 +83,11 @@ export default function Page() {
     handleChange(paramName, event.target.value);
   }
 
+  function handleWeightChange(event, paramName) {
+    // Update the weight state variable and query parameter
+    handleChange(paramName, event.target.value);
+  }
+
   function handleModalOpen() {
     setIsModalOpen(true);
   }
@@ -75,25 +97,40 @@ export default function Page() {
   }
 
   return (
-    <div>
+    <div className="p-4 bg-slate-100">
       <title>
         {pageTitle} {pageDescription}
       </title>
-      <h2
+      <p
         contentEditable="true"
         onBlur={handleTitleChange}
-        style={{ color: titleColor, fontSize: `${titleSize}px` }}
+        style={{
+          color: titleColor,
+          fontSize: `${titleSize}px`,
+          fontWeight: titleFontWeight,
+          fontFamily: "Arial",
+        }}
       >
         {pageTitle}
-      </h2>
+      </p>
       <p
         contentEditable="true"
         onBlur={handleDescriptionChange}
-        style={{ color: descriptionColor, fontSize: `${descriptionSize}px` }}
+        style={{
+          color: descriptionColor,
+          fontSize: `${descriptionSize}px`,
+          fontWeight: descriptionFontWeight,
+          fontFamily: "Arial",
+        }}
       >
         {pageDescription}
       </p>
-      <button onClick={handleModalOpen}>Change Styling</button>
+      <button
+        className="bg-blue-500 hover:bg-blue-700 text-white font-light py-0 px-1 rounded mt-2 transition-all duration-200"
+        onClick={handleModalOpen}
+      >
+        Change Styling
+      </button>
       {isModalOpen && (
         <div
           style={{
@@ -113,51 +150,91 @@ export default function Page() {
               backgroundColor: "#fff",
               padding: "46px",
               borderRadius: "4px",
+              width: "50%",
             }}
           >
-            <h3>Change Styling</h3>
-            <div>
-              <label>
-                Title color:
-                <input
-                  type="color"
-                  value={titleColor}
-                  onChange={(event) => handleColorChange(event, "titleColor")}
-                />
-              </label>
-              <label>
-                Title size:
-                <input
-                  type="number"
-                  value={titleSize}
-                  onChange={(event) => handleSizeChange(event, "titleSize")}
-                />
-              </label>
-            </div>
-            <div>
-              <label>
-                Description color:
-                <input
-                  type="color"
-                  value={descriptionColor}
-                  onChange={(event) =>
-                    handleColorChange(event, "descriptionColor")
-                  }
-                />
-              </label>
-              <label>
-                Description size:
-                <input
-                  type="number"
-                  value={descriptionSize}
-                  onChange={(event) =>
-                    handleSizeChange(event, "descriptionSize")
-                  }
-                />
-              </label>
-            </div>
+            <h3 className="font-bold text-2xl mb-4">Styles</h3>
+
+            {/*title*/}
+            <StyledDetails
+              title="Title"
+              children={
+                <div className="flex flex-col">
+                  <label>Title color:</label>
+                  <input
+                    className="text-black"
+                    type="color"
+                    value={titleColor}
+                    onChange={(event) => handleColorChange(event, "titleColor")}
+                  />
+                  <label>Title size:</label>
+                  <input
+                    className="text-black"
+                    type="number"
+                    value={titleSize}
+                    onChange={(event) => handleSizeChange(event, "titleSize")}
+                  />
+
+                  <label>Title font weight:</label>
+                  <select
+                    className="text-black"
+                    value={titleFontWeight}
+                    onChange={(event) =>
+                      handleWeightChange(event, "titleFontWeight")
+                    }
+                  >
+                    <option value={"normal"}>Normal</option>
+                    <option value={"bold"}>Bold</option>
+                  </select>
+                </div>
+              }
+            />
+
+            {/*description*/}
+            <StyledDetails
+              title="Description"
+              children={
+                <div className="flex flex-col">
+                  <label>Description color:</label>
+                  <input
+                    className="text-black"
+                    type="color"
+                    value={descriptionColor}
+                    onChange={(event) =>
+                      handleColorChange(event, "descriptionColor")
+                    }
+                  />
+                  <label>Description size:</label>
+                  <input
+                    className="text-black"
+                    type="number"
+                    value={descriptionSize}
+                    onChange={(event) =>
+                      handleSizeChange(event, "descriptionSize")
+                    }
+                  />
+
+                  <label>Description font weight:</label>
+                  <select
+                    className="text-black"
+                    value={descriptionFontWeight}
+                    onChange={(event) =>
+                      handleWeightChange(event, "descriptionFontWeight")
+                    }
+                  >
+                    <option value={"normal"}>Normal</option>
+                    <option value={"bold"}>Bold</option>
+                  </select>
+                </div>
+              }
+            />
           </div>
-          <button onClick={handleModalClose}>X</button>
+          <button
+            className="bg-red-500 hover:bg-red-700 text-white font-light py-2 px-4 rounded mt-2 transition-all duration-200"
+            onClick={handleModalClose}
+          >
+            X
+          </button>
         </div>
       )}
     </div>

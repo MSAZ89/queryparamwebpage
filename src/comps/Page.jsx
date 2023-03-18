@@ -1,6 +1,7 @@
 import { useState } from "react";
 import useQueryParam from "./useQueryParam";
 import StyledDetails from "./styledDetails";
+import classNames from "classnames";
 
 export default function Page() {
   const [pageTitle, setPageTitle] = useQueryParam("title", "Page Title");
@@ -27,8 +28,6 @@ export default function Page() {
     "descriptionFontWeight",
     "normal"
   );
-
-  const [isModalOpen, setIsModalOpen] = useState(false);
 
   function handleChange(paramName, value) {
     // Update the parameter value
@@ -88,158 +87,131 @@ export default function Page() {
     handleChange(paramName, event.target.value);
   }
 
-  function handleModalOpen() {
-    setIsModalOpen(true);
-  }
+  const Sidebar = () => {
+    return (
+      <div className="bg-gray-900 text-white h-full w-64 fixed top-0 left-0">
+        <div className="px-4 py-2 flex justify-between items-center">
+          <h3 className="text-xl font-bold">Settings</h3>
+        </div>
+        {/*title*/}
+        <StyledDetails
+          title="Title"
+          children={
+            <div className="flex flex-col">
+              <label>Title color:</label>
+              <input
+                className="text-black"
+                type="color"
+                value={titleColor}
+                onChange={(event) => handleColorChange(event, "titleColor")}
+              />
+              <label>Title size:</label>
+              <input
+                className="text-black"
+                type="number"
+                value={titleSize}
+                onChange={(event) => handleSizeChange(event, "titleSize")}
+              />
 
-  function handleModalClose() {
-    setIsModalOpen(false);
-  }
+              <label>Title font weight:</label>
+              <select
+                className="text-black"
+                value={titleFontWeight}
+                onChange={(event) =>
+                  handleWeightChange(event, "titleFontWeight")
+                }
+              >
+                <option value={"normal"}>Normal</option>
+                <option value={"bold"}>Bold</option>
+              </select>
+            </div>
+          }
+        />
+        {/*description*/}
+        <StyledDetails
+          title="Description"
+          children={
+            <div className="flex flex-col">
+              <label>Description color:</label>
+              <input
+                className="text-black"
+                type="color"
+                value={descriptionColor}
+                onChange={(event) =>
+                  handleColorChange(event, "descriptionColor")
+                }
+              />
+              <label>Description size:</label>
+              <input
+                className="text-black"
+                type="number"
+                value={descriptionSize}
+                onChange={(event) => handleSizeChange(event, "descriptionSize")}
+              />
 
-  return (
-    <div className="p-4 bg-slate-100">
-      <title>
-        {pageTitle} {pageDescription}
-      </title>
-      <p
-        contentEditable="true"
-        onBlur={handleTitleChange}
-        style={{
-          color: titleColor,
-          fontSize: `${titleSize}px`,
-          fontWeight: titleFontWeight,
-          fontFamily: "Arial",
-        }}
+              <label>Description font weight:</label>
+              <select
+                className="text-black"
+                value={descriptionFontWeight}
+                onChange={(event) =>
+                  handleWeightChange(event, "descriptionFontWeight")
+                }
+              >
+                <option value={"normal"}>Normal</option>
+                <option value={"bold"}>Bold</option>
+              </select>
+            </div>
+          }
+        />
+      </div>
+    );
+  };
+
+  const MainContent = () => {
+    return (
+      <div
+        className={
+          //if page title contains "kayla" then set bg to pink
+          pageTitle.toLowerCase().includes("kayla")
+            ? "bg-pink-100 ml-64 p-4 w-full"
+            : "bg-gray-100 ml-64 p-4 w-full"
+        }
       >
-        {pageTitle}
-      </p>
-      <p
-        contentEditable="true"
-        onBlur={handleDescriptionChange}
-        style={{
-          color: descriptionColor,
-          fontSize: `${descriptionSize}px`,
-          fontWeight: descriptionFontWeight,
-          fontFamily: "Arial",
-        }}
-      >
-        {pageDescription}
-      </p>
-      <button
-        className="bg-blue-500 hover:bg-blue-700 text-white font-light py-0 px-1 rounded mt-2 transition-all duration-200"
-        onClick={handleModalOpen}
-      >
-        Change Styling
-      </button>
-      <p className="font-light italic mt-4">
-        *Click on any text to edit* <br />
-      </p>
-      {isModalOpen && (
-        <div
+        <title>
+          {pageTitle} {pageDescription}
+        </title>
+        <h1
+          contentEditable="true"
+          onBlur={handleTitleChange}
           style={{
-            position: "fixed",
-            top: 0,
-            left: 0,
-            width: "100%",
-            height: "100%",
-            backgroundColor: "rgba(0, 0, 0, 0.5)",
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
+            color: titleColor,
+            fontSize: `${titleSize}px`,
+            fontWeight: titleFontWeight,
+            fontFamily: "Arial",
           }}
         >
-          <div
-            style={{
-              backgroundColor: "#fff",
-              padding: "46px",
-              borderRadius: "4px",
-              width: "50%",
-            }}
-          >
-            <h3 className="font-bold text-2xl mb-4">Styles</h3>
+          {pageTitle}
+        </h1>
+        <p
+          contentEditable="true"
+          onBlur={handleDescriptionChange}
+          style={{
+            color: descriptionColor,
+            fontSize: `${descriptionSize}px`,
+            fontWeight: descriptionFontWeight,
+            fontFamily: "Arial",
+          }}
+        >
+          {pageDescription}
+        </p>
+      </div>
+    );
+  };
 
-            {/*title*/}
-            <StyledDetails
-              title="Title"
-              children={
-                <div className="flex flex-col">
-                  <label>Title color:</label>
-                  <input
-                    className="text-black"
-                    type="color"
-                    value={titleColor}
-                    onChange={(event) => handleColorChange(event, "titleColor")}
-                  />
-                  <label>Title size:</label>
-                  <input
-                    className="text-black"
-                    type="number"
-                    value={titleSize}
-                    onChange={(event) => handleSizeChange(event, "titleSize")}
-                  />
-
-                  <label>Title font weight:</label>
-                  <select
-                    className="text-black"
-                    value={titleFontWeight}
-                    onChange={(event) =>
-                      handleWeightChange(event, "titleFontWeight")
-                    }
-                  >
-                    <option value={"normal"}>Normal</option>
-                    <option value={"bold"}>Bold</option>
-                  </select>
-                </div>
-              }
-            />
-
-            {/*description*/}
-            <StyledDetails
-              title="Description"
-              children={
-                <div className="flex flex-col">
-                  <label>Description color:</label>
-                  <input
-                    className="text-black"
-                    type="color"
-                    value={descriptionColor}
-                    onChange={(event) =>
-                      handleColorChange(event, "descriptionColor")
-                    }
-                  />
-                  <label>Description size:</label>
-                  <input
-                    className="text-black"
-                    type="number"
-                    value={descriptionSize}
-                    onChange={(event) =>
-                      handleSizeChange(event, "descriptionSize")
-                    }
-                  />
-
-                  <label>Description font weight:</label>
-                  <select
-                    className="text-black"
-                    value={descriptionFontWeight}
-                    onChange={(event) =>
-                      handleWeightChange(event, "descriptionFontWeight")
-                    }
-                  >
-                    <option value={"normal"}>Normal</option>
-                    <option value={"bold"}>Bold</option>
-                  </select>
-                </div>
-              }
-            />
-          </div>
-          <button
-            className="bg-red-500 hover:bg-red-700 text-white font-light py-2 px-4 rounded mt-2 transition-all duration-200"
-            onClick={handleModalClose}
-          >
-            X
-          </button>
-        </div>
-      )}
+  return (
+    <div className="h-screen flex">
+      <Sidebar />
+      <MainContent />
     </div>
   );
 }

@@ -93,7 +93,7 @@ export default function Page() {
         <div className="px-4 py-2 flex justify-between items-center">
           <h3 className="text-xl font-bold">Settings</h3>
         </div>
-        {/*title*/}
+        {/*STARTtitle*/}
         <StyledDetails
           title="Title"
           children={
@@ -127,7 +127,8 @@ export default function Page() {
             </div>
           }
         />
-        {/*description*/}
+        {/*ENDtitle*/}
+        {/*STARTdescription*/}
         <StyledDetails
           title="Description"
           children={
@@ -163,6 +164,7 @@ export default function Page() {
             </div>
           }
         />
+        {/*ENDdescription*/}
       </div>
     );
   };
